@@ -1,4 +1,4 @@
-# HTML Quest - Ultra Gamificado 🏰
+# HTML Quest - Gamificado
 
 HTML Quest é um **mini-jogo educativo estilo videogame** para aprender HTML de forma divertida e interativa. O jogador avança por níveis resolvendo desafios de HTML, enquanto coleta moedas 💰 e evita obstáculos 🔴 no mapa. Cada nível tem dicas e feedback instantâneo.
 
