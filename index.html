@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>HTML Quest - Mini-jogo Educativo</title>
+<title>HTML Quest - Ultra Gamificado</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,8 +11,8 @@
 
   <div class="game-container">
     <div class="map">
-      <!-- Obstáculos e moedas aparecerão dinamicamente -->
       <div id="player" class="player">🧙‍♂️</div>
+      <div id="score">💰 0</div>
     </div>
 
     <textarea id="editor" placeholder="Escreva seu HTML aqui"></textarea>
@@ -21,6 +21,9 @@
   <div id="feedback"></div>
   <div id="hint"></div>
   <iframe id="preview"></iframe>
+
+  <audio id="coin-sound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3"></audio>
+  <audio id="win-sound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3"></audio>
 
   <script src="script.js"></script>
 </body>

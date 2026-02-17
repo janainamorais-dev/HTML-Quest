@@ -19,7 +19,7 @@ HTML Quest é um **mini-jogo educativo estilo videogame** para aprender HTML de 
 ## 🕹️ Como Jogar
 
 1. Abra o arquivo `index.html` em qualquer navegador moderno.
-2. Leia a descrição do nível na parte superior.
+2. Leia a descrição do nível na parte superior. 
 3. Escreva o HTML correto no editor à direita.
 4. Veja o resultado em tempo real no preview abaixo do editor.
 5. Ao completar o nível, o personagem se move no mapa e você ganha moedas.
