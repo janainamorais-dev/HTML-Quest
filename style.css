@@ -1,0 +1,88 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(120deg, #a1c4fd, #c2e9fb);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+#level-description {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.game-container {
+  display: flex;
+  width: 90%;
+  max-width: 1000px;
+  margin-bottom: 10px;
+}
+
+.map {
+  position: relative;
+  width: 50%;
+  height: 250px;
+  border: 2px solid #333;
+  margin-right: 20px;
+  background: linear-gradient(180deg, #dff, #fff);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.player {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 32px;
+  transition: left 0.5s ease, bottom 0.3s ease;
+}
+
+.coin {
+  position: absolute;
+  font-size: 24px;
+}
+
+.obstacle {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #f00;
+  border-radius: 5px;
+}
+
+#editor {
+  width: 50%;
+  height: 250px;
+  font-family: monospace;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#preview {
+  width: 90%;
+  height: 250px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+#feedback {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+#hint {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #555;
+}
