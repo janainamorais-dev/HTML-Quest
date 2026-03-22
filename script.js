@@ -17,16 +17,16 @@ let currentLevelIndex = 0;
 let levelCompleted = false;
 
 const levels = [
-  {description:"Crie uma lista com 3 itens usando <ul> e <li>.", hint:"Use <ul> e 3 <li>.", validator: html => /<ul>[\s\S]*<\/ul>/.test(html) && (html.match(/<li>/g)||[]).length===3, starter:"<ul>\n  <li></li>\n  <li></li>\n  <li></li>\n</ul>"},
-  {description:"Crie um link para Google.", hint:"Use <a href='https://www.google.com'>", validator: html => /<a\s+href=["']https:\/\/www\.google\.com["'].*>.*<\/a>/.test(html), starter:"<a href=''></a>"},
-  {description:"Adicione uma imagem.", hint:"Use <img src='https://via.placeholder.com/150'>", validator: html => /<img\s+src=["']https:\/\/via\.placeholder\.com\/150["']/.test(html), starter:"<img src=''>"},
-  {description:"Crie um <h1> com 'Bem-vindo!'", hint:"Use <h1>", validator: html => /<h1>.*Bem-vindo.*<\/h1>/.test(html), starter:"<h1></h1>"},
-  {description:"Crie um parágrafo.", hint:"Use <p>", validator: html => /<p>.+<\/p>/.test(html), starter:"<p></p>"},
-  {description:"Crie um botão <button> com o texto 'Enviar'.", hint:"Use <button>Enviar</button>", validator: html => /<button>.*Enviar.*<\/button>/.test(html), starter:"<button></button>"},
-  {description:"Crie um input com placeholder 'Digite seu nome'.", hint:"Use <input placeholder='Digite seu nome'>", validator: html => /<input\s+[^>]*placeholder=["']Digite seu nome["']/.test(html), starter:"<input>"},
-  {description:"Crie um formulário com input e botão.", hint:"O input e botão devem estar dentro do <form>", validator: html => /<form>[\s\S]*<input[\s\S]*>[\s\S]*<button[\s\S]*>[\s\S]*<\/form>/.test(html), starter:"<form>\n  <input>\n  <button></button>\n</form>"},
-  {description:"Crie uma lista ordenada <ol> com 3 itens.", hint:"Use <ol> e 3 <li>", validator: html => /<ol>[\s\S]*<\/ol>/.test(html) && (html.match(/<li>/g)||[]).length===3, starter:"<ol>\n  <li></li>\n  <li></li>\n  <li></li>\n</ol>"},
-  {description:"Crie <header>, <main> e <footer>.", hint:"Coloque algum texto dentro de cada tag", validator: html => /<header>[\s\S]*<\/header>/.test(html) && /<main>[\s\S]*<\/main>/.test(html) && /<footer>[\s\S]*<\/footer>/.test(html), starter:"<header></header>\n<main></main>\n<footer></footer>"}
+  {description:"Crie uma lista com 3 itens usando <ul> e <li>.", hint:"Use <ul> e 3 <li>.", validator: html => /<ul>[\s\S]*<\/ul>/.test(html) && (html.match(/<li>/g)||[]).length===3, starter:""},
+  {description:"Crie um link para Google.", hint:"Use <a href='https://www.google.com'>", validator: html => /<a\s+href=["']https:\/\/www\.google\.com["'].*>.*<\/a>/.test(html), starter:""},
+  {description:"Adicione uma imagem.", hint:"Use <img src='https://via.placeholder.com/150'>", validator: html => /<img\s+src=["']https:\/\/via\.placeholder\.com\/150["']/.test(html), starter:""},
+  {description:"Crie um <h1> com 'Bem-vindo!'", hint:"Use <h1>", validator: html => /<h1>.*Bem-vindo.*<\/h1>/.test(html), starter:""},
+  {description:"Crie um parágrafo.", hint:"Use <p>", validator: html => /<p>.+<\/p>/.test(html), starter:""},
+  {description:"Crie um botão <button> com o texto 'Enviar'.", hint:"Use <button>Enviar</button>", validator: html => /<button>.*Enviar.*<\/button>/.test(html), starter:""},
+  {description:"Crie um input com placeholder 'Digite seu nome'.", hint:"Use <input placeholder='Digite seu nome'>", validator: html => /<input\s+[^>]*placeholder=["']Digite seu nome["']/.test(html), starter:""},
+  {description:"Crie um formulário com input e botão.", hint:"O input e botão devem estar dentro do <form>", validator: html => /<form>[\s\S]*<input[\s\S]*>[\s\S]*<button[\s\S]*>[\s\S]*<\/form>/.test(html), starter:""},
+  {description:"Crie uma lista ordenada <ol> com 3 itens.", hint:"Use <ol> e 3 <li>", validator: html => /<ol>[\s\S]*<\/ol>/.test(html) && (html.match(/<li>/g)||[]).length===3, starter:""},
+  {description:"Crie <header>, <main> e <footer>.", hint:"Coloque algum texto dentro de cada tag", validator: html => /<header>[\s\S]*<\/header>/.test(html) && /<main>[\s\S]*<\/main>/.test(html) && /<footer>[\s\S]*<\/footer>/.test(html), starter:""}
 ];
 
 function movePlayer(){
