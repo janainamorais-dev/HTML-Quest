@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>HTML Quest - Ultra Gamificado</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Quest RPG 🚀</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>HTML Quest 🏰</h1>
-  <div id="level-description">Carregando...</div>
 
-  <div class="game-container">
-    <div class="map">
-      <div id="player" class="player">🧙‍♂️</div>
-      <div id="score">💰 0</div>
+  <header>
+    <h1>HTML Quest RPG 🧙‍♂️</h1>
+  </header>
+
+  <main>
+    <section id="level-description">Carregando missão...</section>
+
+    <div class="game-container">
+      <div class="map">
+        <div id="player" class="player">🧙‍♂️</div>
+        <div id="progress-bar"></div>
+      </div>
+
+      <div class="editor-container">
+        <textarea id="editor" placeholder="Digite seu HTML aqui"></textarea>
+        <button onclick="runCode()">▶ Executar</button>
+      </div>
     </div>
 
-    <textarea id="editor" placeholder="Escreva seu HTML aqui"></textarea>
-  </div>
+    <section id="feedback"></section>
+    <section id="hint"></section>
 
-  <div id="feedback"></div>
-  <div id="hint"></div>
-  <iframe id="preview"></iframe>
+    <section class="preview-container">
+      <h3>Visualização</h3>
+      <iframe id="preview" sandbox="allow-scripts"></iframe>
+    </section>
 
-  <audio id="coin-sound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3"></audio>
-  <audio id="win-sound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3"></audio>
+    <div class="hud">
+      <div id="score">💰 0</div>
+      <div id="xp">⭐ 0</div>
+      <div id="level">Fase 1</div>
+    </div>
+  </main>
 
+  <audio id="win-sound" src="win.mp3"></audio>
   <script src="script.js"></script>
+
 </body>
 </html>

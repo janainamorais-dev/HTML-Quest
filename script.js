@@ -4,168 +4,86 @@ const feedback = document.getElementById('feedback');
 const levelDescription = document.getElementById('level-description');
 const hintBox = document.getElementById('hint');
 const player = document.getElementById('player');
-const map = document.querySelector('.map');
+const progressBar = document.getElementById('progress-bar');
 const scoreDisplay = document.getElementById('score');
+const xpDisplay = document.getElementById('xp');
+const levelDisplay = document.getElementById('level');
 
-const coinSound = document.getElementById('coin-sound');
 const winSound = document.getElementById('win-sound');
 
 let score = 0;
+let xp = 0;
 let currentLevelIndex = 0;
+let levelCompleted = false;
 
 const levels = [
-  {
-    description: "Nível 1: Crie uma lista com 3 itens usando <ul> e <li>.",
-    hint: "Use <ul> como container e <li> para cada item.",
-    validator: html => {
-      const ul = html.match(/<ul>[\s\S]*<\/ul>/);
-      const li = html.match(/<li>.*<\/li>/g);
-      return ul && li && li.length === 3;
-    },
-    starter: ""
-  },
-  {
-    description: "Nível 2: Adicione um link para https://www.google.com usando <a>.",
-    hint: "A tag <a> precisa do atributo href com o link.",
-    validator: html => /<a\s+href=["']https:\/\/www\.google\.com["'].*>.*<\/a>/.test(html),
-    starter: ""
-  },
-  {
-    description: "Nível 3: Insira uma imagem usando <img> (src https://via.placeholder.com/150).",
-    hint: "Não esqueça o atributo alt.",
-    validator: html => /<img\s+src=["']https:\/\/via\.placeholder\.com\/150["'].*>/.test(html),
-    starter: ""
-  },
-  {
-    description: "Nível 4: Crie um cabeçalho <h1> com o texto 'Bem-vindo!'.",
-    hint: "A tag <h1> é para títulos principais.",
-    validator: html => /<h1>.*Bem-vindo.*<\/h1>/.test(html),
-    starter: ""
-  },
-  {
-    description: "Nível 5: Crie um parágrafo <p> com algum texto.",
-    hint: "Use <p> para parágrafos de texto.",
-    validator: html => /<p>.+<\/p>/.test(html),
-    starter: ""
-  },
-  {
-    description: "Nível 6: Crie um botão <button> com o texto 'Enviar'.",
-    hint: "Use <button> e coloque o texto dentro.",
-    validator: html => /<button>.*Enviar.*<\/button>/.test(html),
-    starter: ""
-  },
-  {
-    description: "Nível 7: Crie um input de texto <input> com placeholder 'Digite seu nome'.",
-    hint: "Use o atributo placeholder.",
-    validator: html => /<input\s+[^>]*placeholder=["']Digite seu nome["']/.test(html),
-    starter: ""
-  },
-  {
-    description: "Nível 8: Crie um formulário <form> com um input e um botão.",
-    hint: "O input e o botão devem estar dentro do <form>.",
-    validator: html => /<form>[\s\S]*<input[\s\S]*>[\s\S]*<button[\s\S]*>[\s\S]*<\/form>/.test(html),
-    starter: ""
-  },
-  {
-    description: "Nível 9: Crie uma lista ordenada <ol> com 3 itens.",
-    hint: "Use <ol> como container e <li> para cada item.",
-    validator: html => {
-      const ol = html.match(/<ol>[\s\S]*<\/ol>/);
-      const li = html.match(/<li>.*<\/li>/g);
-      return ol && li && li.length === 3;
-    },
-    starter: ""
-  },
-  {
-    description: "Nível 10: Crie uma estrutura básica com <header>, <main> e <footer>.",
-    hint: "Coloque algum texto dentro de cada tag.",
-    validator: html => /<header>[\s\S]*<\/header>/.test(html) &&
-                        /<main>[\s\S]*<\/main>/.test(html) &&
-                        /<footer>[\s\S]*<\/footer>/.test(html),
-    starter: ""
-  }
+  {description:"Crie uma lista com 3 itens usando <ul> e <li>.", hint:"Use <ul> e 3 <li>.", validator: html => /<ul>[\s\S]*<\/ul>/.test(html) && (html.match(/<li>/g)||[]).length===3, starter:"<ul>\n  <li></li>\n  <li></li>\n  <li></li>\n</ul>"},
+  {description:"Crie um link para Google.", hint:"Use <a href='https://www.google.com'>", validator: html => /<a\s+href=["']https:\/\/www\.google\.com["'].*>.*<\/a>/.test(html), starter:"<a href=''></a>"},
+  {description:"Adicione uma imagem.", hint:"Use <img src='https://via.placeholder.com/150'>", validator: html => /<img\s+src=["']https:\/\/via\.placeholder\.com\/150["']/.test(html), starter:"<img src=''>"},
+  {description:"Crie um <h1> com 'Bem-vindo!'", hint:"Use <h1>", validator: html => /<h1>.*Bem-vindo.*<\/h1>/.test(html), starter:"<h1></h1>"},
+  {description:"Crie um parágrafo.", hint:"Use <p>", validator: html => /<p>.+<\/p>/.test(html), starter:"<p></p>"},
+  {description:"Crie um botão <button> com o texto 'Enviar'.", hint:"Use <button>Enviar</button>", validator: html => /<button>.*Enviar.*<\/button>/.test(html), starter:"<button></button>"},
+  {description:"Crie um input com placeholder 'Digite seu nome'.", hint:"Use <input placeholder='Digite seu nome'>", validator: html => /<input\s+[^>]*placeholder=["']Digite seu nome["']/.test(html), starter:"<input>"},
+  {description:"Crie um formulário com input e botão.", hint:"O input e botão devem estar dentro do <form>", validator: html => /<form>[\s\S]*<input[\s\S]*>[\s\S]*<button[\s\S]*>[\s\S]*<\/form>/.test(html), starter:"<form>\n  <input>\n  <button></button>\n</form>"},
+  {description:"Crie uma lista ordenada <ol> com 3 itens.", hint:"Use <ol> e 3 <li>", validator: html => /<ol>[\s\S]*<\/ol>/.test(html) && (html.match(/<li>/g)||[]).length===3, starter:"<ol>\n  <li></li>\n  <li></li>\n  <li></li>\n</ol>"},
+  {description:"Crie <header>, <main> e <footer>.", hint:"Coloque algum texto dentro de cada tag", validator: html => /<header>[\s\S]*<\/header>/.test(html) && /<main>[\s\S]*<\/main>/.test(html) && /<footer>[\s\S]*<\/footer>/.test(html), starter:"<header></header>\n<main></main>\n<footer></footer>"}
 ];
 
-function spawnCoinsAndObstacles() {
-  map.querySelectorAll('.coin, .obstacle').forEach(el => el.remove());
-
-  // Moedas aleatórias
-  for(let i=0;i<3;i++){
-    const coin = document.createElement('div');
-    coin.className='coin';
-    coin.textContent='💰';
-    coin.style.left=`${Math.random()*(map.offsetWidth-30)}px`;
-    coin.style.bottom=`${Math.random()*(map.offsetHeight-30)}px`;
-    map.appendChild(coin);
-  }
-
-  // Obstáculos aleatórios
-  for(let i=0;i<2;i++){
-    const obs = document.createElement('div');
-    obs.className='obstacle';
-    obs.style.left=`${Math.random()*(map.offsetWidth-40)}px`;
-    obs.style.bottom=`${Math.random()*(map.offsetHeight-40)}px`;
-    map.appendChild(obs);
-  }
+function movePlayer(){
+  const mapHeight = 400;
+  const step = mapHeight / (levels.length);
+  const newY = mapHeight - (currentLevelIndex + 1) * step;
+  player.style.transform = `translateY(${newY}px)`;
+  progressBar.style.height = `${((currentLevelIndex + 1)/levels.length)*100}%`;
 }
 
-function collectCoins() {
-  map.querySelectorAll('.coin').forEach(coin => {
-    const coinRect = coin.getBoundingClientRect();
-    const playerRect = player.getBoundingClientRect();
-    if(!(coinRect.right<playerRect.left || coinRect.left>playerRect.right ||
-        coinRect.bottom<playerRect.top || coinRect.top>playerRect.bottom)){
-      coin.remove();
-      score += 10;
-      scoreDisplay.textContent = `💰 ${score}`;
-      coinSound.play();
-    }
-  });
-}
-
-function movePlayer() {
-  const mapWidth = map.offsetWidth;
-  const step = mapWidth / (levels.length + 1);
-  player.style.left = `${(currentLevelIndex + 1) * step}px`;
-
-  collectCoins();
-}
-
-function loadLevel(index) {
+function loadLevel(index){
   const level = levels[index];
+  levelCompleted = false;
   levelDescription.textContent = level.description;
+  hintBox.textContent = "💡 "+level.hint;
+  feedback.textContent = "";
   editor.value = level.starter;
   preview.srcdoc = level.starter;
-  feedback.textContent = "";
-  hintBox.textContent = "💡 Dica: " + level.hint;
-  player.style.left="10px";
-  spawnCoinsAndObstacles();
+  movePlayer();
+  levelDisplay.textContent = `Fase ${index+1}`;
 }
 
-editor.addEventListener('input',()=>{
+function checkCode(){
+  if(levelCompleted) return;
   const code = editor.value;
-  preview.srcdoc=code;
+  preview.srcdoc = code;
   const level = levels[currentLevelIndex];
   if(level.validator(code)){
-    feedback.textContent="✅ Nível completado!";
-    movePlayer();
+    levelCompleted = true;
+    feedback.textContent = "✅ Nível completado!";
+    feedback.style.color = "#00ff9c";
+    score += 10;
+    xp += 5;
+    scoreDisplay.textContent = `💰 ${score}`;
+    xpDisplay.textContent = `⭐ ${xp}`;
+
     setTimeout(()=>{
       currentLevelIndex++;
-      if(currentLevelIndex<levels.length){
+      if(currentLevelIndex < levels.length){
         loadLevel(currentLevelIndex);
       }else{
-        levelDescription.textContent="🎉 Parabéns! Você completou todos os níveis!";
-        feedback.textContent="";
-        hintBox.textContent="";
-        editor.disabled=true;
+        levelDescription.textContent = "🎉 Parabéns! Você completou todos os níveis!";
+        feedback.textContent = "";
+        hintBox.textContent = "";
+        editor.disabled = true;
         winSound.play();
       }
-    },1000);
+    },800);
   }else{
-    feedback.textContent="❌ Ainda não está correto. Tente novamente!";
+    feedback.textContent = "❌ Ainda não está correto.";
+    feedback.style.color = "#ff4d4d";
   }
-});
+}
 
-// Inicializa o jogo
+editor.addEventListener('input', ()=>{ setTimeout(checkCode, 300); });
+function runCode(){ checkCode(); }
+
 loadLevel(currentLevelIndex);
-scoreDisplay.textContent=`💰 ${score}`;
+scoreDisplay.textContent = `💰 ${score}`;
+xpDisplay.textContent = `⭐ ${xp}`;
